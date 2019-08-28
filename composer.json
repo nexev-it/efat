@@ -1,20 +1,35 @@
 {
     "name": "nexev/e-fat",
-    "description": "eInvoice creation and massive export from Nexev Srl",
+    "description": "Creazione di fattura elettronica ed importazione verso i più comuni software gestionali",
     "type": "library",
     "authors": [
         {
-            "name": "Andrea Mungari Nexev",
+            "name": "Andrea Mungari",
             "email": "andrea.mungari@nexev.it"
         }
     ],
+    "keywords": [
+        "fattura",
+        "fatturaxml",
+        "fatturapa",
+        "importazione-danea",
+        "importazione-fattureincloud"
+    ],
+    "homepage": "http://www.nexev.it",
+    "support": {
+        "issues": "https://github.com/Release88/efat/issues",
+        "source": "https://github.com/Release88/efat"
+    },
+    "license": "MIT",
     "require": {
+        "php": ">=7.2",
         "slam/php-validatore-fattura-elettronica": "^1.2"
     },
+    "prefer-stable": true,
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Nexev\\EFat\\": "src/EFat/"
+            "Nexev\\EFat\\": "src/"
         }
     }
 }
