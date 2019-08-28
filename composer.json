@@ -1,0 +1,20 @@
+{
+    "name": "nexev/e-fat",
+    "description": "eInvoice creation and massive export from Nexev Srl",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Andrea Mungari Nexev",
+            "email": "andrea.mungari@nexev.it"
+        }
+    ],
+    "require": {
+        "slam/php-validatore-fattura-elettronica": "^1.2"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Nexev\\EFat\\": "src/EFat/"
+        }
+    }
+}
