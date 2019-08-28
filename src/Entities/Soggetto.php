@@ -10,6 +10,13 @@ abstract class Soggetto {
      * @var bool
      */
     private $personaFisica;
+    
+    /**
+     * Se iscritto o no al REA
+     *
+     * @var bool
+     */
+    private $iscrittoREA;
 
     /**
      * Codice univoco del Sistema di Interscambio
@@ -32,7 +39,6 @@ abstract class Soggetto {
      */
     private $denominazione;
     
-
     /**
      * Regime fiscale del soggetto
      *

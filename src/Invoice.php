@@ -44,18 +44,14 @@ class Invoice {
     /**
      * Oggetto rappresentante la persona trasmittente
      *
-     * @var array
+     * @var Nexev\EFat\Entities\Soggetto
      */
-    private $trasmittente = [
-        'denominazione' => '',
-        'partita_iva' => '',
-        'codice_fiscale' => '',
-    ];
+    private $trasmittente;
 
     /**
      * Oggetto rappresentante il Cedente/Prestatore
      *
-     * @var array
+     * @var Nexev\EFat\Entities\Soggetto
      */
     private $cedente = [
 
@@ -64,7 +60,7 @@ class Invoice {
     /**
      * Oggetto rappresentante il Cessionario/Committente
      *
-     * @var array
+     * @var Nexev\EFat\Entities\Soggetto
      */
     private $cessionario = [
 
