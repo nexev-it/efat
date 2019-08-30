@@ -44,7 +44,7 @@ class Ritenuta extends AbstractBaseClass {
 
     public function setCausale(string $causale): void
     {
-        if(in_array(
+        if(!in_array(
             $causale,
             [
                 'A',
