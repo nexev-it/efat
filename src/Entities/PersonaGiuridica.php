@@ -65,15 +65,13 @@ class PersonaGiuridica extends AbstractPersonaGiuridica implements CessionarioIn
         return true;
     }
 
-    public function compilaIdTrasmittente(\SimpleXMLElement $el): \SimpleXMLElement
+    public function compilaIdTrasmittente(\SimpleXMLElement $el): void
     {
         $el->addChild('IdPaese', 'IT');
         $el->addChild('IdCodice', $this->getPartitaIVA());
-
-        return $el;
     }
 
-    public function compilaCedentePrestatore(\SimpleXMLElement $el): \SimpleXMLElement
+    public function compilaCedentePrestatore(\SimpleXMLElement $el): void
     {
         $CPdatiAnagrafici = $el->addChild('DatiAnagrafici');
         $CPDAidFiscaleIva = $CPdatiAnagrafici->addChild('IdFiscaleIVA');
@@ -91,11 +89,9 @@ class PersonaGiuridica extends AbstractPersonaGiuridica implements CessionarioIn
             $CPiscrizioneRea = $el->addChild('IscrizioneREA');
             $CPiscrizioneRea = $this->getREA()->compilaREA($CPiscrizioneRea);
         }
-
-        return $el;
     }
 
-    public function compilaTerzoIntermediario(\SimpleXMLElement $el): \SimpleXMLElement
+    public function compilaTerzoIntermediario(\SimpleXMLElement $el): void
     {
 
         $TIdatiAnagrafici = $el->addChild('DatiAnagrafici');
@@ -103,7 +99,5 @@ class PersonaGiuridica extends AbstractPersonaGiuridica implements CessionarioIn
         $TIDAidFiscaleIva->addChild('IdPaese', $this->getPaese());
         $TIDAidFiscaleIva->addChild('IdCodice', $this->getPartitaIVA()); // PARTITA IVA
         $TIdatiAnagrafici->addChild('Anagrafica')->addChild('Denominazione', htmlspecialchars($this->getDenominazione(), ENT_XML1));
-
-        return $el;
     }
 }

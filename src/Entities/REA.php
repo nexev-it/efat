@@ -111,7 +111,7 @@ class REA extends AbstractBaseClass {
         return $this->inLiquidazione;
     }
 
-    public function compilaREA(\SimpleXMLElement $el): \SimpleXMLElement
+    public function compilaREA(\SimpleXMLElement $el): void
     {
         $el->addChild('Ufficio', $this->getUfficio());
         $el->addChild('NumeroREA', $this->getNumero());
@@ -119,7 +119,5 @@ class REA extends AbstractBaseClass {
         if ($this->capitaleSociale) $el->addChild('CapitaleSociale', $this->format($this->getCapitaleSociale()));
         $el->addChild('SocioUnico', $this->getSocioUnico() ? 'SU' : 'SM');
         $el->addChild('StatoLiquidazione', $this->getInLiquidazione() ? 'LS' : 'LN');
-
-        return $el;
     }
 }

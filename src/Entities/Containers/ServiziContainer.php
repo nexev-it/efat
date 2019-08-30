@@ -130,7 +130,7 @@ class ServiziContainer extends AbstractBaseClass
         return $aliquote;
     }
 
-    public function compilaBeniServizi(\SimpleXMLElement $el): \SimpleXMLElement
+    public function compilaBeniServizi(\SimpleXMLElement $el): void
     {
         $itemNumber = 0;
 
@@ -156,7 +156,5 @@ class ServiziContainer extends AbstractBaseClass
             // EsigibilitaIVA: obbligatorio solo se si è nel campo delle operazioni imponibili.
             $datiRiepilogo->addChild('EsigibilitaIVA', 'I'); // 'I' per IVA ad esigibilità immediata, 'D' per IVA ad esigibilità differita.
         }
-
-        return $el;
     }
 }

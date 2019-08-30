@@ -69,14 +69,12 @@ class Indirizzo extends AbstractBaseClass {
         return $this->paese;
     }
 
-    public function compilaSede(\SimpleXMLElement $el): \SimpleXMLElement
+    public function compilaSede(\SimpleXMLElement $el): void
     {
         $el->addChild('Indirizzo', $this->getIndirizzo());
         $el->addChild('CAP', $this->getCAP());
         $el->addChild('Comune', $this->getCitta());
         $el->addChild('Provincia', $this->getProvincia());
         $el->addChild('Nazione', $this->getPaese());
-
-        return $el;
     }
 }

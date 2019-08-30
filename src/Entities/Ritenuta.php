@@ -107,14 +107,12 @@ class Ritenuta extends AbstractBaseClass {
         return $this->causale;
     }
 
-    public function compilaDatiRitenuta(\SimpleXMLElement $el, float $totale): \SimpleXMLElement
+    public function compilaDatiRitenuta(\SimpleXMLElement $el, float $totale): void
     {
         $importoRitenuta = $totale * $this->aliquota;
         $el->addChild('TipoRitenuta', $this->tipo); // RT01 per persone fisiche, RT02 per persone giuridiche
         $el->addChild('ImportoRitenuta', $this->format($importoRitenuta));
         $el->addChild('AliquotaRitenuta', $this->getValorePercentuale($this->aliquota));
         $el->addChild('CausalePagamento', $this->causale);
-
-        return $el;
     }
 }

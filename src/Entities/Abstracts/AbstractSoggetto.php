@@ -40,7 +40,9 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
     protected $isPA;
 
     /**
-     * Codice univoco del Sistema di Interscambio
+     * Codice univoco del Sistema di Interscambio.
+     * Per i Cessionari/Committenti è necessario che
+     * sia valorizzato almeno uno tra codice SDI e PEC
      *
      * @var string
      */
@@ -48,13 +50,17 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
 
     /**
      * Indirizzo PEC
+     * Per i Cessionari/Committenti è necessario che
+     * sia valorizzato almeno uno tra codice SDI e PEC
      *
      * @var string
      */
     protected $pec;
     
     /**
-     * Regime fiscale del soggetto
+     * Regime fiscale del soggetto.
+     * Se non definito è impostato automaticamente
+     * a RF01
      *
      * @var string
      */
@@ -62,6 +68,8 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
 
     /**
      * Oggetto indirizzo
+     * Obbligatorio per Cessionario/Committente
+     * e per Cedente/Prestatore
      *
      * @var \Nexev\EFat\Entities\Indirizzo
      */
@@ -79,79 +87,89 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
         $this->errori = [];
 
         $this->init();
-
-        /*
-        Trasmittente:
-        - Partita IVA
-        - Denominazione
-        */
-
-        /*
-        Cedente (è personagiuridica):
-        - Denominazione
-        - Partita IVA
-        - Indirizzo
-        - ?REA
-        - Regime fiscale
-        */
-
-        /*
-        Cessionario (persona fisica o giuridica, o PA)
-            - Persona fisica:
-                - Nome e cognome
-                - Codice fiscale O Partita IVA
-                - Indirizzo
-                - PEC o codice SDI
-            - Persona giuridica:
-                - Denominazione
-                - Partita IVA
-                - Indirizzo
-                - PEC o codice SDI
-            - Pubblica amministrazione:
-                - Denominazione
-                - Partita IVA
-                - Indirizzo
-                - PEC o codice SDI
-        */
     }
 
     /** GETTERS */
 
+    /**
+     * Restituisce il nome/denominazione del Soggetto
+     *
+     * @return string
+     */
     public function getNome(): string
     {
         return $this->denominazione;
     }
 
+    /**
+     * Restituisce il nome/denominazione del Soggetto
+     *
+     * @return string
+     */
     public function getDenominazione(): string
     {
         return $this->getNome();
     }
 
+    /**
+     * Restituisce la partiva IVA del Soggetto
+     *
+     * @return string
+     */
     public function getPartitaIVA(): string
     {
         return $this->partitaIVA;
     }
 
+    /**
+     * Restituisce l'indirizzo di PEC del Soggetto,
+     * se impostato
+     *
+     * @return string|null
+     */
     public function getPEC(): ?string
     {
         return $this->pec;
     }
 
+    /**
+     * Restituisce il codice SDI del Soggetto, se
+     * impostato
+     *
+     * @return string
+     */
     public function getCodiceSDI(): string
     {
         return $this->sdi ?: '0000000';
     }
 
-    public function getRegimeFiscale(): ?string
+    /**
+     * Restituisce il regime fiscale del Soggetto
+     *
+     * @return string
+     */
+    public function getRegimeFiscale(): string
     {
         return $this->regimeFiscale;
     }
 
+    /**
+     * Restituisce l'indirizzo del Soggetto, se
+     * impostato
+     *
+     * @return Indirizzo|null
+     */
     public function getIndirizzo(): ?Indirizzo
     {
         return $this->indirizzo;
     }
 
+    /**
+     * Restituisce le iniziali del paese del Soggetto.
+     * È attualmente settato automaticamente a IT
+     *
+     * @return string
+     */
     public function getPaese(): string
     {
         return $this->paese;
@@ -159,17 +177,35 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
 
     /** SETTERS */
 
+    /**
+     * Imposta il nome/denominazione del Soggetto.
+     *
+     * @param string $nome
+     * @return void
+     */
     public function setNome(string $nome): void
     {
         if (strlen($nome) < 2) throw new \Exception("La denominazione è troppo corta");
         $this->denominazione = $nome;
     }
 
+    /**
+     * Imposta il nome/denominazione del Soggetto.
+     *
+     * @param string $denominazione
+     * @return void
+     */
     public function setDenominazione(string $denominazione): void
     {
         $this->setNome($denominazione);
     }
 
+    /**
+     * Imposta la partita IVA del Soggetto
+     *
+     * @param string $partitaIVA
+     * @return void
+     */
     public function setPartitaIVA(string $partitaIVA): void
     {
         if($this->startsWith($partitaIVA, $this->paese)) {
@@ -181,6 +217,12 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
         $this->partitaIVA = $partitaIVA;
     }
 
+    /**
+     * Imposta l'indirizzo di PEC del Soggetto
+     *
+     * @param string|null $pec
+     * @return void
+     */
     public function setPEC(?string $pec): void
     {
         if(is_null($pec)) return;
@@ -189,6 +231,12 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
         $this->pec = $pec;
     }
 
+    /**
+     * Imposta il codice SDI del Soggetto
+     *
+     * @param string|null $sdi
+     * @return void
+     */
     public function setCodiceSDI(?string $sdi): void
     {
         if(is_null($sdi)) return;
@@ -197,6 +245,12 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
         $this->sdi = $sdi;
     }
 
+    /**
+     * Imposta il regime fiscale del Soggetto
+     *
+     * @param string $regimeFiscale
+     * @return void
+     */
     public function setRegimeFiscale(string $regimeFiscale): void
     {
         if(!in_array(
@@ -228,22 +282,40 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
     }
     
 
+    /**
+     * Imposta l'indirizzo del Soggetto
+     *
+     * @param Indirizzo $indirizzo
+     * @return void
+     */
     public function aggiungiIndirizzo(Indirizzo $indirizzo): void
     {
         $this->indirizzo = $indirizzo;
     }
 
+    /**
+     * Imposta l'indirizzo del Soggetto
+     *
+     * @param Indirizzo $indirizzo
+     * @return void
+     */
     public function setIndirizzo(Indirizzo $indirizzo): void
     {
         $this->aggiungiIndirizzo($indirizzo);
     }
 
+    /**
+     * Restituisce true se il Soggetto presenta
+     * dati REA.
+     *
+     * @return boolean
+     */
     public function hasREA(): bool
     {
         return false;
     }
 
-    public function compilaCessionarioCommittente(\SimpleXMLElement $el): \SimpleXMLElement
+    public function compilaCessionarioCommittente(\SimpleXMLElement $el): void
     {
         $CCdatiAnagrafici = $el->addChild('DatiAnagrafici');
         $CCDAidFiscaleIva = $CCdatiAnagrafici->addChild('IdFiscaleIVA');
@@ -253,8 +325,6 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
 
         $CCsede = $el->addChild('Sede');
         $CCsede = $this->getIndirizzo()->compilaSede($CCsede);
-
-        return $el;
     }
 
 

@@ -6,7 +6,7 @@ interface TrasmittenteInterface {
 
     public function checkForTrasmittente(): bool;
 
-    public function compilaIdTrasmittente(\SimpleXMLElement $el): \SimpleXMLElement;
+    public function compilaIdTrasmittente(\SimpleXMLElement $el): void;
 
-    public function compilaTerzoIntermediario(\SimpleXMLElement $el): \SimpleXMLElement;
+    public function compilaTerzoIntermediario(\SimpleXMLElement $el): void;
 }
