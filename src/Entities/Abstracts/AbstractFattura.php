@@ -247,6 +247,11 @@ abstract class AbstractFattura extends AbstractBaseClass {
         return $this->beniServizi->getArray();
     }
 
+    public function getServiziContainer(): ServiziContainer
+    {
+        return $this->beniServizi;
+    }
+
     public function getRitenuta(): ?Ritenuta
     {
         return $this->ritenuta;
@@ -277,7 +282,7 @@ abstract class AbstractFattura extends AbstractBaseClass {
             $this->errori[] = "Non è stato impostato alcun Cedente/Prestatore. Utilizzare la funzione setCedente()";
             $return = false;
         }
-        if(count($this->beniServizi->getArray()) < 1) {
+        if(!$this->beniServizi->count()) {
             $this->errori[] = "Non è stato inserito neanche un Bene/Servizio. Utilizzare le funzioni setServizio(Servizio) e setServizi(array)";
             $return = false;
         }

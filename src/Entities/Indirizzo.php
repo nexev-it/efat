@@ -4,7 +4,7 @@ namespace Nexev\EFat\Entities;
 
 use Nexev\EFat\Entities\Abstracts\AbstractBaseClass;
 
-abstract class Indirizzo extends AbstractBaseClass {
+class Indirizzo extends AbstractBaseClass {
     
     protected $indirizzo;
     protected $citta;
@@ -40,7 +40,7 @@ abstract class Indirizzo extends AbstractBaseClass {
     public function setCAP($cap): void
     {
         if(strlen($cap) != 5) throw new \Exception("CAP non valido: numero dei caratteri da utilizzare: 5");
-        if(!is_int($cap)) throw new \Exception("CAP non valido: la stringa non contiene soltanto numeri");
+        if(!is_numeric($cap)) throw new \Exception("CAP non valido: la stringa non contiene soltanto numeri");
         $this->cap = $cap;
     }
 

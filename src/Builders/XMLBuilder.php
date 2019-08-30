@@ -2,17 +2,20 @@
 
 namespace Nexev\EFat\Builders;
 
+use Nexev\EFat\Entities\Abstracts\AbstractBaseClass;
 use Nexev\EFat\Entities\Abstracts\AbstractFattura;
 use SlamFatturaElettronica\Validator;
 
-class XMLBuilder {
+class XMLBuilder extends AbstractBaseClass {
 
     private $fattura;
 
     public function __construct(AbstractFattura $fattura)
     {
+        if (!$fattura->check())
+            throw new \Exception($fattura->getStringaErrori());
+
         $this->fattura = $fattura;
-        if($this->fattura->check()) throw new \Exception($this->fattura->getStringaErrori());
 
     }
 
@@ -23,14 +26,14 @@ class XMLBuilder {
      */
     public function esportaXML(): string
     {
-        $simpleXmlElement = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><p:FatturaElettronica xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" versione="' . $this->formatoTrasmissione . '" xsi:schemaLocation="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2/Schema_del_file_xml_FatturaPA_versione_1.2.xsd" />', 0, false, 'p', false);
+        $simpleXmlElement = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><p:FatturaElettronica xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" versione="' . $this->fattura->getFormatoTrasmissione() . '" xsi:schemaLocation="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2/Schema_del_file_xml_FatturaPA_versione_1.2.xsd" />', 0, false, 'p', false);
 
         $header = $simpleXmlElement->addChild('FatturaElettronicaHeader', '', '');
 
         $datiTrasmissione = $header->addChild('DatiTrasmissione');
 
         $idTrasmittente = $datiTrasmissione->addChild('IdTrasmittente');
-        $idTrasmittente = $this->fattura->getTrasmittente()->compilaIdTrasmittente($idTrasmittente);
+        $this->fattura->getTrasmittente()->compilaIdTrasmittente($idTrasmittente);
 
         $datiTrasmissione->addChild('ProgressivoInvio', $this->fattura->getProgressivoInvio());
 
@@ -43,14 +46,14 @@ class XMLBuilder {
         }
 
         $cedentePrestatore = $header->addChild('CedentePrestatore');
-        $cedentePrestatore = $this->fattura->getCedente()->compilaCedentePrestatore($cedentePrestatore);
+        $this->fattura->getCedente()->compilaCedentePrestatore($cedentePrestatore);
 
         $cessionarioCommittente = $header->addChild('CessionarioCommittente');
-        $cessionarioCommittente = $this->fattura->getCessionario()->compilaCessionarioCommittente($cessionarioCommittente);
+        $this->fattura->getCessionario()->compilaCessionarioCommittente($cessionarioCommittente);
 
         if($this->fattura->hasTrasmittente()) {
             $terzoIntermediario = $header->addChild('TerzoIntermediarioOSoggettoEmittente');
-            $terzoIntermediario = $this->fattura->getTrasmittente()->compilaTerzoIntermediario($terzoIntermediario);
+            $this->fattura->getTrasmittente()->compilaTerzoIntermediario($terzoIntermediario);
             
             $header->addChild('SoggettoEmittente', $this->fattura->isPassiva() ? 'CC' : 'TZ');
         }
@@ -68,14 +71,14 @@ class XMLBuilder {
 
         if($this->fattura->hasRitenuta()) {
             $DGdatiRitenuta = $DGdocumento->addChild('DatiRitenuta');
-            $DGdatiRitenuta = $this->fattura->getRitenuta()->compilaDatiRitenuta($DGdatiRitenuta, $this->fattura->getServizi()->getTotale());
+            $this->fattura->getRitenuta()->compilaDatiRitenuta($DGdatiRitenuta, $this->fattura->getServiziContainer()->getTotale());
         }
 
-        $DGdocumento->addChild('ImportoTotaleDocumento', $this->format($this->fattura->getServizi()->getTotale()));
+        $DGdocumento->addChild('ImportoTotaleDocumento', $this->format($this->fattura->getServiziContainer()->getTotale()));
 
         $datiBeniServizi = $body->addchild('DatiBeniServizi');
 
-        $datiBeniServizi = $this->fattura->getServizi()->compilaBeniServizi($datiBeniServizi);
+        $this->fattura->getServiziContainer()->compilaBeniServizi($datiBeniServizi);
 
         // Creo il file
         $xmlDom = new \DOMDocument('1.0', 'utf-8');

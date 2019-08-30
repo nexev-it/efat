@@ -179,19 +179,21 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
             $partitaIVA = substr($partitaIVA, strlen($this->paese));
         }
 
-        if(!eregi('^[0-9]{11}$', $partitaIVA) && !eregi('^[a-z]{6}[0-9]{2}[a-z][0-9]{2}[a-z][0-9]{3}[a-z]$', $partitaIVA)) throw new \Exception("Partita IVA / Codice fiscale non riconosciuto");
+        if(!preg_match('/[0-9]{11}/i', $partitaIVA) && !preg_match('/[a-z]{6}[0-9]{2}[a-z][0-9]{2}[a-z][0-9]{3}[a-z]/i', $partitaIVA)) throw new \Exception("Partita IVA / Codice fiscale non riconosciuto");
 
         $this->partitaIVA = $partitaIVA;
     }
 
-    public function setPEC(string $pec): void
+    public function setPEC(?string $pec): void
     {
-        if(!eregi('^[a-z0-9_]+@[a-z0-9\-]+\.[a-z0-9\-\.]+$]', $pec)) throw new \Exception("Indirizzo email non formattato in modo corretto"); // TODO
+        if(is_null($pec)) return;
+        if(!preg_match('/[a-z0-9_]+@[a-z0-9\-]+\.[a-z0-9\-\.]+$]/i', $pec)) throw new \Exception("Indirizzo email non formattato in modo corretto"); // TODO
     }
 
-    public function setCodiceSDI(string $sdi): void
+    public function setCodiceSDI(?string $sdi): void
     {
-        if(!eregi($this->getSdiRegEx(), $sdi)) throw new \Exception("Codice SDI non formattato in modo corretto");
+        if(is_null($sdi)) return;
+        if(!preg_match($this->getSdiRegEx(), $sdi)) throw new \Exception("Codice SDI non formattato in modo corretto");
     }
 
     public function setRegimeFiscale(string $regimeFiscale): void
@@ -259,7 +261,7 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
 
     protected function getSdiRegEx(): string
     {
-        return $this->isPA ? '^[a-z0-9]{7}$' : '^[a-z0-9]{6}$';
+        return $this->isPA ? '/[a-z0-9]{7}/i' : '/[a-z0-9]{6}/i';
     }
 
     protected function init(): void { }

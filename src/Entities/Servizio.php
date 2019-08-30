@@ -4,7 +4,7 @@ namespace Nexev\EFat\Entities;
 
 use Nexev\EFat\Entities\Abstracts\AbstractBaseClass;
 
-abstract class Servizio extends AbstractBaseClass {
+class Servizio extends AbstractBaseClass {
 
     /**
      * Descrizione del servizio
@@ -44,7 +44,7 @@ abstract class Servizio extends AbstractBaseClass {
 
     public function setDescrizione(string $descrizione): void
     {
-        if (strlen(($descrizione) < 1)) throw new \Exception("Descrizione del servizio troppo corta");
+        if (strlen($descrizione) < 1) throw new \Exception("Descrizione del servizio troppo corta");
         $this->descrizione = $descrizione;
     }
 
