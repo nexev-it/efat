@@ -91,7 +91,7 @@ class REA extends AbstractBaseClass {
         return $this->ufficio;
     }
 
-    public function getNumero(): stirng
+    public function getNumero(): string
     {
         return $this->numero;
     }
