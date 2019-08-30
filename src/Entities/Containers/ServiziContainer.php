@@ -142,7 +142,7 @@ class ServiziContainer extends AbstractBaseClass
             $dl->addChild('Descrizione', $this->clearString($item->getDescrizione()));
             $dl->addChild('Quantita', $this->format($item->getQuantita()));
             $dl->addChild('PrezzoUnitario', $this->format($item->getPrezzoUnitario()));
-            $dl->addChild('PrezzoTotale', $this->format($item->getTotale()));
+            $dl->addChild('PrezzoTotale', $this->format($item->getImponibile()));
             $dl->addChild('AliquotaIVA', $this->getValorePercentuale($item->getAliquotaIva()));
         }
 
