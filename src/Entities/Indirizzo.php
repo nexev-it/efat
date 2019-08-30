@@ -21,7 +21,7 @@ class Indirizzo extends AbstractBaseClass {
 
     public function setIndirizzo(string $indirizzo): void
     {
-        if(strlen($indirizzo) < 5) throw new \Exception("Nome dell'indirizzo/via non valido"); // TODO
+        if(strlen($indirizzo) < 5) throw new \Exception("Nome dell'indirizzo/via non valido");
         $this->indirizzo = strtoupper($indirizzo);
     }
 
@@ -31,13 +31,13 @@ class Indirizzo extends AbstractBaseClass {
         $this->citta = strtoupper($citta);
     }
 
-    public function setProvincia($provincia): void
+    public function setProvincia(string $provincia): void
     {
         if(strlen($provincia) != 2) throw new \Exception("Provincia non valida: numero dei caratteri da utilizzare: 2");
         $this->provincia = strtoupper($provincia);
     }
 
-    public function setCAP($cap): void
+    public function setCAP(string $cap): void
     {
         if(strlen($cap) != 5) throw new \Exception("CAP non valido: numero dei caratteri da utilizzare: 5");
         if(!is_numeric($cap)) throw new \Exception("CAP non valido: la stringa non contiene soltanto numeri");
