@@ -262,7 +262,7 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
 
     protected function getSdiRegEx(): string
     {
-        return $this->isPA ? '/[a-z0-9]{7}/i' : '/[a-z0-9]{6}/i';
+        return $this->isPA ? '/[a-z0-9]{6}/i' : '/[a-z0-9]{7}/i';
     }
 
     protected function init(): void { }

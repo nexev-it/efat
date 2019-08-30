@@ -16,16 +16,16 @@ class PubblicaAmministrazione extends AbstractPersonaGiuridica implements Cessio
     {
         $this->errori = [];
 
-        $error = false;
+        $return = true;
         if (!$this->sdi) {
-            $error = true;
+            $return = false;
             $this->errori[] = "Non è stato impostato il codice SDI per la PA";
         }
-        if (!$this->address) {
-            $error = true;
+        if (!$this->indirizzo) {
+            $return = false;
             $this->errori[] = "Non è stato impostato un indirizzo per la PA";
         }
 
-        return $error;
+        return $return;
     }
 }

@@ -9,7 +9,7 @@ class FatturaPA extends AbstractFattura {
 
     public function __construct(string $numero, string $progressivoInvio, ?DateTime $data = null)
     {
-        $this->formatoTrasmissione = 'FPR12';
+        $this->formatoTrasmissione = 'FPA12';
         parent::__construct($numero, $progressivoInvio, $data);
     }
 
