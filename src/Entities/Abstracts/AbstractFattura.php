@@ -9,7 +9,6 @@ use Nexev\EFat\Entities\Interfaces\CessionarioInterface;
 use Nexev\EFat\Entities\Interfaces\TrasmittenteInterface;
 use Nexev\EFat\Entities\Ritenuta;
 use Nexev\EFat\Entities\Servizio;
-use Nexev\EFat\Entities\Traits\ErrorTrait;
 
 /**
  * Classe principale per la creazione della fattura.
@@ -17,8 +16,6 @@ use Nexev\EFat\Entities\Traits\ErrorTrait;
  * XML delle fatture ed il file in versione PDF
  */
 abstract class AbstractFattura extends AbstractBaseClass {
-
-    use ErrorTrait;
 
     /**
      * Stringa rappresentante il formato trasmissione: FPA12 o FPR12.

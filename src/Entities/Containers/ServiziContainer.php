@@ -84,6 +84,11 @@ class ServiziContainer extends AbstractBaseClass
         return $this->servizi;
     }
 
+    public function count(): int
+    {
+        return count($this->servizi);
+    }
+
     /**
      * Ritorna un array strutturato con il valore delle aliquote iva,
      * l'imponibile e il prezzo iva riferito a quella aliquota

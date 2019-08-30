@@ -3,11 +3,8 @@
 namespace Nexev\EFat\Entities\Abstracts;
 
 use Nexev\EFat\Entities\Indirizzo;
-use Nexev\EFat\Entities\Traits\ErrorTrait;
 
 abstract class AbstractSoggetto extends AbstractBaseClass {
-
-    use ErrorTrait;
     
 
     /**
@@ -187,13 +184,17 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
     public function setPEC(?string $pec): void
     {
         if(is_null($pec)) return;
-        if(!preg_match('/[a-z0-9_]+@[a-z0-9\-]+\.[a-z0-9\-\.]+$]/i', $pec)) throw new \Exception("Indirizzo email non formattato in modo corretto"); // TODO
+        if(!preg_match('/[a-z0-9_]+@[a-z0-9\-]+\.[a-z0-9\-\.]+$]/i', $pec)) throw new \Exception("Indirizzo email non formattato in modo corretto");
+
+        $this->pec = $pec;
     }
 
     public function setCodiceSDI(?string $sdi): void
     {
         if(is_null($sdi)) return;
         if(!preg_match($this->getSdiRegEx(), $sdi)) throw new \Exception("Codice SDI non formattato in modo corretto");
+
+        $this->sdi = $sdi;
     }
 
     public function setRegimeFiscale(string $regimeFiscale): void
@@ -221,7 +222,7 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
                 'RF18',
             ]
             )
-        ) throw new \Exception("Regime fiscale non valido"); // TODO
+        ) throw new \Exception("Regime fiscale non valido");
 
         $this->regimeFiscale = $regimeFiscale;
     }

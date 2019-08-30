@@ -35,17 +35,17 @@ class PersonaGiuridica extends AbstractPersonaGiuridica implements CessionarioIn
     {
         $this->errori = [];
 
-        $error = false;
+        $return = true;
         if (!$this->pec && !$this->sdi) {
-            $error = true;
+            $return = false;
             $this->errori[] = "Non è stato impostato nè codice SDI nè PEC per il Cessionario";
         }
         if (!$this->indirizzo) {
-            $error = true;
+            $return = false;
             $this->errori[] = "Non è stato impostato un indirizzo per il Cessionario";
         }
 
-        return $error;
+        return $return;
     }
 
     public function checkForCedente(): bool
