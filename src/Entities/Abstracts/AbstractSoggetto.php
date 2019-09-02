@@ -75,6 +75,20 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
      */
     protected $indirizzo;
 
+    /**
+     * Numero di telefono del Soggetto
+     *
+     * @var null|string
+     */
+    protected $telefono;
+
+    /**
+     * Indirizzo email del Soggetto
+     *
+     * @var null|string
+     */
+    protected $email;
+
     public function __construct(string $denominazione, string $partitaIVA, string $codiceSDI = null, string $pec = null, string $regimeFiscale = 'RF01') {
         // TODO 
         $this->isPA = is_a($this, 'Nexev\EFat\Entities\PubblicaAmministrazione') ? true : false;
@@ -173,6 +187,16 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
     public function getPaese(): string
     {
         return $this->paese;
+    }
+
+    public function getTelefono(): ?string
+    {
+        return $this->telefono;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
     }
 
     /** SETTERS */
@@ -279,6 +303,16 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
         ) throw new \Exception("Regime fiscale non valido");
 
         $this->regimeFiscale = $regimeFiscale;
+    }
+
+    public function setTelefono(string $telefono): void
+    {
+        $this->telefono = $telefono;
+    }
+
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
     }
     
 
