@@ -164,7 +164,7 @@ class ServiziContainer extends AbstractBaseClass
 
             $datiRiepilogo = $el->addChild('DatiRiepilogo');
             $datiRiepilogo->addChild('AliquotaIVA', $this->getValorePercentuale(0));
-            $datiRiepilogo->addChild('ImponibileImporto', $this->format($aliquota['imponibile']));
+            $datiRiepilogo->addChild('ImponibileImporto', $this->format($this->getImponibile()));
             $datiRiepilogo->addChild('Imposta', $this->format(0));
     
             // EsigibilitaIVA: obbligatorio solo se si è nel campo delle operazioni imponibili.
