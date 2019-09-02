@@ -71,10 +71,10 @@ class XMLBuilder extends AbstractBaseClass {
 
         if($this->fattura->hasRitenuta()) {
             $DGdatiRitenuta = $DGdocumento->addChild('DatiRitenuta');
-            $this->fattura->getRitenuta()->compilaDatiRitenuta($DGdatiRitenuta, $this->fattura->getServiziContainer()->getTotale());
+            $this->fattura->compilaDatiRitenuta($DGdatiRitenuta);
         }
 
-        $DGdocumento->addChild('ImportoTotaleDocumento', $this->format($this->fattura->getServiziContainer()->getTotale()));
+        $DGdocumento->addChild('ImportoTotaleDocumento', $this->format($this->fattura->getTotale()));
 
         $datiBeniServizi = $body->addchild('DatiBeniServizi');
 

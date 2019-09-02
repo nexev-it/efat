@@ -28,11 +28,21 @@ class Ritenuta extends AbstractBaseClass {
      */
     private $causale;
 
-    public function __construct(float $aliquota, string $causale = 'Z', ?string $tipo = null)
+    /**
+     * L'importo della ritenuta è calcolato con la formula:
+     * imponibile - (imponibile * percentuale_su_imponibile * aliquota_ritenuta)
+     * La percentuale è un numero da 0 a 1
+     *
+     * @var float
+     */
+    private $percentualeSuImponibile;
+
+    public function __construct(float $aliquota, string $causale = 'Z', ?string $tipo = null, float $percentualeSuImponibile = 1)
     {
         $this->setAliquota($aliquota);
         $this->setCausale($causale);
         $this->setTipo($tipo);
+        $this->setPercentualeSuImponibile($percentualeSuImponibile);
     }
 
     public function setAliquota(float $aliquota): void
@@ -92,6 +102,13 @@ class Ritenuta extends AbstractBaseClass {
         $this->tipo = $tipo;
     }
 
+    public function setPercentualeSuImponibile($percentualeSuImponibile): void
+    {
+        if ($percentualeSuImponibile < 0 or $percentualeSuImponibile > 1) throw new \Exception("La percentuale sull'imponibile della ritenuta deve essere un valore percentuale, quindi compreso tra 0 e 1");
+
+        $this->percentualeSuImponibile = $percentualeSuImponibile;
+    }
+
     public function getTipo(): ?string
     {
         return $this->tipo;
@@ -107,12 +124,8 @@ class Ritenuta extends AbstractBaseClass {
         return $this->causale;
     }
 
-    public function compilaDatiRitenuta(\SimpleXMLElement $el, float $totale): void
+    public function getPercentualeSuImponibile(): float
     {
-        $importoRitenuta = $totale * $this->aliquota;
-        $el->addChild('TipoRitenuta', $this->tipo); // RT01 per persone fisiche, RT02 per persone giuridiche
-        $el->addChild('ImportoRitenuta', $this->format($importoRitenuta));
-        $el->addChild('AliquotaRitenuta', $this->getValorePercentuale($this->aliquota));
-        $el->addChild('CausalePagamento', $this->causale);
+        return $this->percentualeSuImponibile;
     }
 }

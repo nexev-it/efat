@@ -384,6 +384,27 @@ abstract class AbstractFattura extends AbstractBaseClass {
     }
 
     /**
+     * Restituisce il totale della fattura, sottraendo
+     * eventualmente la ritenuta d'acconto
+     *
+     * @return float
+     */
+    public function getTotale(): float
+    {
+        $totale = $this->getServiziContainer()->getTotale();
+        return $this->getServiziContainer()->getTotale() - $this->getRitenuta();
+    }
+
+    public function getImponibileRitenuta(): float
+    {
+        if($this->hasRitenuta()) {
+            $imponibile = $this->getServiziContainer()->getImponibile();
+            return $imponibile - ($imponibile * $this->getRitenuta()->getPercentualeSuImponibile() * $this->getRitenuta()->getAliquota());
+        }
+        return 0;
+    }
+
+    /**
      * Restituisce la ritenuta d'acconto impostata,
      * se presente, null altrimenti
      *
@@ -416,6 +437,14 @@ abstract class AbstractFattura extends AbstractBaseClass {
         if(!$this->builder) $this->builder = new XMLBuilder($this);
 
         return $this->builder;
+    }
+
+    public function compilaDatiRitenuta(\SimpleXMLElement $el): void
+    {
+        $el->addChild('TipoRitenuta', $this->getRitenuta()->getTipo()); // RT01 per persone fisiche, RT02 per persone giuridiche
+        $el->addChild('ImportoRitenuta', $this->format($this->getImponibileRitenuta()));
+        $el->addChild('AliquotaRitenuta', $this->getValorePercentuale($this->getRitenuta()->getAliquota()));
+        $el->addChild('CausalePagamento', $this->getRitenuta()->getCausale());
     }
 
 
