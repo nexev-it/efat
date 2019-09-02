@@ -52,7 +52,7 @@ class FatturaBuilder {
      * @param string $regimeFiscale
      * @return PersonaFisica
      */
-    public function creaPersonaFisica(string $denominazione, string $partitaIVA, string $codiceSDI = null, string $pec = null, string $regimeFiscale = 'RF01'): PersonaFisica {
+    public static function creaPersonaFisica(string $denominazione, string $partitaIVA, string $codiceSDI = null, string $pec = null, string $regimeFiscale = 'RF01'): PersonaFisica {
         return new PersonaFisica($denominazione, $partitaIVA, $codiceSDI, $pec, $regimeFiscale);
     }
 
@@ -66,7 +66,7 @@ class FatturaBuilder {
      * @param string $regimeFiscale
      * @return PersonaGiuridica
      */
-    public function creaPersonaGiuridica(string $denominazione, string $partitaIVA, string $codiceSDI = null, string $pec = null, string $regimeFiscale = 'RF01'): PersonaGiuridica {
+    public static function creaPersonaGiuridica(string $denominazione, string $partitaIVA, string $codiceSDI = null, string $pec = null, string $regimeFiscale = 'RF01'): PersonaGiuridica {
         return new PersonaGiuridica($denominazione, $partitaIVA, $codiceSDI, $pec, $regimeFiscale);
     }
 
@@ -80,7 +80,7 @@ class FatturaBuilder {
      * @param string $regimeFiscale
      * @return PubblicaAmministrazione
      */
-    public function creaPubblicaAmministrazione(string $denominazione, string $partitaIVA, string $codiceSDI = null, string $pec = null, string $regimeFiscale = 'RF01'): PubblicaAmministrazione {
+    public static function creaPubblicaAmministrazione(string $denominazione, string $partitaIVA, string $codiceSDI = null, string $pec = null, string $regimeFiscale = 'RF01'): PubblicaAmministrazione {
         return new PubblicaAmministrazione($denominazione, $partitaIVA, $codiceSDI, $pec, $regimeFiscale);
     }
 
@@ -95,7 +95,7 @@ class FatturaBuilder {
      * @param string $cap
      * @return Indirizzo
      */
-    public function creaIndirizzo(string $indirizzo, string $citta, string $provincia, string $cap): Indirizzo {
+    public static function creaIndirizzo(string $indirizzo, string $citta, string $provincia, string $cap): Indirizzo {
         return new Indirizzo($indirizzo, $citta, $provincia, $cap);
     }
 
@@ -108,7 +108,7 @@ class FatturaBuilder {
      * @param float $aliquotaIVA
      * @return Servizio
      */
-    public function creaServizio(string $descrizione, float $prezzoUnitario, int $quantita = 1, float $aliquotaIVA = 0.22): Servizio {
+    public static function creaServizio(string $descrizione, float $prezzoUnitario, int $quantita = 1, float $aliquotaIVA = 0.22): Servizio {
         return new Servizio($descrizione, $prezzoUnitario, $quantita, $aliquotaIVA);
     }
 
@@ -124,7 +124,7 @@ class FatturaBuilder {
      * @param boolean $inLiquidazione
      * @return REA
      */
-    public function creaREA(string $numero, string $ufficio, bool $socioUnico, ?float $capitaleSociale = null, bool $inLiquidazione = false): REA {
+    public static function creaREA(string $numero, string $ufficio, bool $socioUnico, ?float $capitaleSociale = null, bool $inLiquidazione = false): REA {
         return new REA($numero, $ufficio, $socioUnico, $capitaleSociale, $inLiquidazione);
     }
 
@@ -137,7 +137,7 @@ class FatturaBuilder {
      * @param string|null $tipo
      * @return Ritenuta
      */
-    public function creaRitenuta(float $aliquota, float $percentualeSuImponibile = 1, string $causale = 'Z', ?string $tipo = null): Ritenuta {
+    public static function creaRitenuta(float $aliquota, float $percentualeSuImponibile = 1, string $causale = 'Z', ?string $tipo = null): Ritenuta {
         return new Ritenuta($aliquota, $percentualeSuImponibile, $causale, $tipo);
     }
 }
