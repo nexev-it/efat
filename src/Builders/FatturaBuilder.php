@@ -23,8 +23,8 @@ class FatturaBuilder {
      * @param DateTime|null $data
      * @return FatturaPrivati
      */
-    public static function creaFatturaPrivati(string $numero, string $progressivoInvio, ?DateTime $data = null): FatturaPrivati {
-        return new FatturaPrivati($numero, $progressivoInvio, $data);
+    public static function creaFatturaPrivati(string $numero, string $progressivoInvio, ?DateTime $data = null, $esigibileIVA = true): FatturaPrivati {
+        return new FatturaPrivati($numero, $progressivoInvio, $data, $esigibileIVA);
     }
 
     /**
@@ -36,8 +36,8 @@ class FatturaBuilder {
      * @param DateTime|null $data
      * @return FatturaPA
      */
-    public static function creaFatturaPA(string $numero, string $progressivoInvio, ?DateTime $data = null): FatturaPA {
-        return new FatturaPA($numero, $progressivoInvio, $data);
+    public static function creaFatturaPA(string $numero, string $progressivoInvio, ?DateTime $data = null, $esigibileIVA = true): FatturaPA {
+        return new FatturaPA($numero, $progressivoInvio, $data, $esigibileIVA);
     }
 
     /**
@@ -137,7 +137,7 @@ class FatturaBuilder {
      * @param string|null $tipo
      * @return Ritenuta
      */
-    public function creaRitenuta(float $aliquota, string $causale = 'Z', ?string $tipo = null): Ritenuta {
-        return new Ritenuta($aliquota, $causale, $tipo);
+    public function creaRitenuta(float $aliquota, float $percentualeSuImponibile = 1, string $causale = 'Z', ?string $tipo = null): Ritenuta {
+        return new Ritenuta($aliquota, $percentualeSuImponibile, $causale, $tipo);
     }
 }

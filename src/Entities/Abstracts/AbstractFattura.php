@@ -92,13 +92,22 @@ abstract class AbstractFattura extends AbstractBaseClass {
      */
     protected $ritenuta;
 
+    /**
+     * Booleano: true se la fattura comprenderà gli importi IVA,
+     * false se l'IVA non deve essere dichiarata
+     *
+     * @var bool
+     */
+    protected $esigibileIVA;
 
-    public function __construct(string $numero, string $progressivoInvio, ?DateTime $data = null)
+
+    public function __construct(string $numero, string $progressivoInvio, ?DateTime $data = null, bool $esigibileIVA = true)
     {
         $this->beniServizi = new ServiziContainer();
         $this->setNumero($numero);
         $this->setProgressivoInvio($progressivoInvio);
         $this->setData($data);
+        $this->setEsigibileIVA($esigibileIVA);
         
     }
 
@@ -112,7 +121,7 @@ abstract class AbstractFattura extends AbstractBaseClass {
      * @param string $numero
      * @return void
      */
-    public function setNumero(string $numero)
+    public function setNumero(string $numero): void
     {
         if(strlen($numero) < 1 OR strlen($numero) > 5) throw new \Exception("Il numero della fattura deve essere compreso tra 1 e 5 caratteri");
         $this->numero = $numero;
@@ -126,7 +135,7 @@ abstract class AbstractFattura extends AbstractBaseClass {
      * @param string $progressivoInvio
      * @return void
      */
-    public function setProgressivoInvio(string $progressivoInvio)
+    public function setProgressivoInvio(string $progressivoInvio): void
     {
         if(strlen($progressivoInvio) < 1 OR strlen($progressivoInvio) > 8) throw new \Exception("Il numero di progressivo invio deve essere copmreso tra 1 ed 8 caratteri");
         $this->progressivoInvio = $progressivoInvio;
@@ -139,9 +148,22 @@ abstract class AbstractFattura extends AbstractBaseClass {
      * @param \Datetime|null $data
      * @return void
      */
-    public function setData(?Datetime $data) {
+    public function setData(?Datetime $data): void
+    {
         if(is_null($data)) $this->data = new DateTime();
         else $this->data = $data;
+    }
+
+    /**
+     * Impostare true se si vuole comprendere l'iva dei beni /
+     * servizi in fattura, false altrimenti
+     *
+     * @param boolean $esigibileIVA
+     * @return void
+     */
+    public function setEsigibileIVA(bool $esigibileIVA): void
+    {
+        $this->esigibileIVA = $esigibileIVA;
     }
 
     /**
@@ -299,6 +321,11 @@ abstract class AbstractFattura extends AbstractBaseClass {
         return $this->progressivoInvio;
     }
 
+    public function getEsigibileIva(): bool
+    {
+        return $this->esigibileIVA;
+    }
+
     /**
      * Restituisce il trasmittente della fattura.
      * Se non è stato impostato, il cedente è considerato
@@ -391,15 +418,15 @@ abstract class AbstractFattura extends AbstractBaseClass {
      */
     public function getTotale(): float
     {
-        $totale = $this->getServiziContainer()->getTotale();
-        return $this->getServiziContainer()->getTotale() - $this->getRitenuta();
+        $totale = $this->getEsigibileIva() ? $this->getServiziContainer()->getTotale() : $this->getServiziContainer()->getImponibile();
+        
+        return $totale - $this->getImponibileRitenuta();
     }
 
     public function getImponibileRitenuta(): float
     {
         if($this->hasRitenuta()) {
-            $imponibile = $this->getServiziContainer()->getImponibile();
-            return $imponibile - ($imponibile * $this->getRitenuta()->getPercentualeSuImponibile() * $this->getRitenuta()->getAliquota());
+            return ($this->getServiziContainer()->getImponibile() * $this->getRitenuta()->getPercentualeSuImponibile() * $this->getRitenuta()->getAliquota());
         }
         return 0;
     }

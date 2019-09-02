@@ -37,7 +37,7 @@ class Ritenuta extends AbstractBaseClass {
      */
     private $percentualeSuImponibile;
 
-    public function __construct(float $aliquota, string $causale = 'Z', ?string $tipo = null, float $percentualeSuImponibile = 1)
+    public function __construct(float $aliquota, float $percentualeSuImponibile = 1, string $causale = 'Z', ?string $tipo = null)
     {
         $this->setAliquota($aliquota);
         $this->setCausale($causale);

@@ -78,7 +78,7 @@ class XMLBuilder extends AbstractBaseClass {
 
         $datiBeniServizi = $body->addchild('DatiBeniServizi');
 
-        $this->fattura->getServiziContainer()->compilaBeniServizi($datiBeniServizi);
+        $this->fattura->getServiziContainer()->compilaBeniServizi($datiBeniServizi, $this->fattura->getEsigibileIva());
 
         // Creo il file
         $xmlDom = new \DOMDocument('1.0', 'utf-8');

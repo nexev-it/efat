@@ -52,7 +52,7 @@ class AbstractBaseClass {
     protected function getValorePercentuale(float $number): string
     {
         $percentuale = $number * 100;
-        return number_format($percentuale, 2, '.', '');
+        return $this->format($percentuale);
     }
 
     protected function startsWith(string $string, string $start): bool

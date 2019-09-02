@@ -130,7 +130,7 @@ class ServiziContainer extends AbstractBaseClass
         return $aliquote;
     }
 
-    public function compilaBeniServizi(\SimpleXMLElement $el): void
+    public function compilaBeniServizi(\SimpleXMLElement $el, bool $esigibilita): void
     {
         $itemNumber = 0;
 
@@ -143,18 +143,34 @@ class ServiziContainer extends AbstractBaseClass
             $dl->addChild('Quantita', $this->format($item->getQuantita()));
             $dl->addChild('PrezzoUnitario', $this->format($item->getPrezzoUnitario()));
             $dl->addChild('PrezzoTotale', $this->format($item->getImponibile()));
-            $dl->addChild('AliquotaIVA', $this->getValorePercentuale($item->getAliquotaIva()));
+            $dl->addChild('AliquotaIVA', $this->getValorePercentuale($esigibilita ? $item->getAliquotaIva() : 0));
         }
 
+        if($esigibilita) {
+            
+            foreach ($this->getAliquoteIVA() as $aliquota) {
+                $datiRiepilogo = $el->addChild('DatiRiepilogo');
+                $datiRiepilogo->addChild('AliquotaIVA', $this->getValorePercentuale($aliquota['aliquota']));
+                $datiRiepilogo->addChild('ImponibileImporto', $this->format($aliquota['imponibile']));
+                $datiRiepilogo->addChild('Imposta', $this->format($aliquota['iva']));
+    
+                // EsigibilitaIVA: obbligatorio solo se si è nel campo delle operazioni imponibili.
+                $datiRiepilogo->addChild('EsigibilitaIVA', 'I'); // 'I' per IVA ad esigibilità immediata, 'D' per IVA ad esigibilità differita.
+            }
 
-        foreach ($this->getAliquoteIVA() as $aliquota) {
+        }
+
+        else {
+
             $datiRiepilogo = $el->addChild('DatiRiepilogo');
-            $datiRiepilogo->addChild('AliquotaIVA', $this->getValorePercentuale($aliquota['aliquota']));
+            $datiRiepilogo->addChild('AliquotaIVA', $this->getValorePercentuale(0));
             $datiRiepilogo->addChild('ImponibileImporto', $this->format($aliquota['imponibile']));
-            $datiRiepilogo->addChild('Imposta', $this->format($aliquota['iva']));
-
+            $datiRiepilogo->addChild('Imposta', $this->format(0));
+    
             // EsigibilitaIVA: obbligatorio solo se si è nel campo delle operazioni imponibili.
             $datiRiepilogo->addChild('EsigibilitaIVA', 'I'); // 'I' per IVA ad esigibilità immediata, 'D' per IVA ad esigibilità differita.
+            
         }
+
     }
 }
