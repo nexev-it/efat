@@ -2,6 +2,7 @@
 
 namespace Nexev\EFat\Builders;;
 
+use DateTime;
 use Nexev\EFat\Entities\Indirizzo;
 use Nexev\EFat\Entities\PersonaFisica;
 use Nexev\EFat\Entities\PersonaGiuridica;
@@ -20,7 +21,7 @@ class FatturaBuilder {
      *
      * @param string $numero
      * @param string $progressivoInvio
-     * @param DateTime|null $data
+     * @param \DateTime|null $data
      * @return FatturaPrivati
      */
     public static function creaFatturaPrivati(string $numero, string $progressivoInvio, ?DateTime $data = null, $esigibileIVA = true): FatturaPrivati {
