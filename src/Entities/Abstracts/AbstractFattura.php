@@ -470,7 +470,7 @@ abstract class AbstractFattura extends AbstractBaseClass {
     {
         $el->addChild('TipoRitenuta', $this->getRitenuta()->getTipo()); // RT01 per persone fisiche, RT02 per persone giuridiche
         $el->addChild('ImportoRitenuta', $this->format($this->getImponibileRitenuta()));
-        $el->addChild('AliquotaRitenuta', $this->getValorePercentuale($this->getRitenuta()->getAliquota()));
+        $el->addChild('AliquotaRitenuta', $this->getValorePercentuale($this->getRitenuta()->getAliquotaTotale()));
         $el->addChild('CausalePagamento', $this->getRitenuta()->getCausale());
     }
 

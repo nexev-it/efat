@@ -47,7 +47,7 @@ class Ritenuta extends AbstractBaseClass {
 
     public function setAliquota(float $aliquota): void
     {
-        if($aliquota < 0 OR $aliquota > 1) throw new \Exception("L'aliquota della ritenuta deve essere un valore percentuale, quindi compreso tra 0 e 1");
+        if($aliquota <= 0 OR $aliquota > 1) throw new \Exception("L'aliquota della ritenuta deve essere un valore percentuale, quindi compreso tra 0 (escluso) e 1 (incluso)");
 
         $this->aliquota = $aliquota;
     }
@@ -104,7 +104,7 @@ class Ritenuta extends AbstractBaseClass {
 
     public function setPercentualeSuImponibile($percentualeSuImponibile): void
     {
-        if ($percentualeSuImponibile < 0 or $percentualeSuImponibile > 1) throw new \Exception("La percentuale sull'imponibile della ritenuta deve essere un valore percentuale, quindi compreso tra 0 e 1");
+        if ($percentualeSuImponibile <= 0 or $percentualeSuImponibile > 1) throw new \Exception("La percentuale sull'imponibile della ritenuta deve essere un valore percentuale, quindi compreso tra 0 (escluso) e 1 (incluso)");
 
         $this->percentualeSuImponibile = $percentualeSuImponibile;
     }
@@ -127,5 +127,10 @@ class Ritenuta extends AbstractBaseClass {
     public function getPercentualeSuImponibile(): float
     {
         return $this->percentualeSuImponibile;
+    }
+
+    public function getAliquotaTotale(): float
+    {
+        return $this->getPercentualeSuImponibile() * $this->getAliquota();
     }
 }
