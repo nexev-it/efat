@@ -250,7 +250,7 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
     public function setPEC(?string $pec): void
     {
         if(is_null($pec)) return;
-        if(!preg_match('/[a-z0-9_]+@[a-z0-9\-]+\.[a-z0-9\-\.]+$]/i', $pec)) throw new \Exception("Indirizzo email non formattato in modo corretto");
+        if(!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i", $pec)) throw new \Exception("Indirizzo email non formattato in modo corretto");
 
         $this->pec = $pec;
     }

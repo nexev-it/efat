@@ -22,7 +22,7 @@
     },
     "license": "MIT",
     "require": {
-        "php": ">=7.2",
+        "php": ">=7.1",
         "slam/php-validatore-fattura-elettronica": "^1.2"
     },
     "prefer-stable": true,

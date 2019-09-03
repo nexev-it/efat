@@ -2,6 +2,7 @@
 
 namespace Nexev\EFat;
 
+use DateTime;
 use Nexev\EFat\Entities\Abstracts\AbstractFattura;
 use Nexev\EFat\Entities\Interfaces\CessionarioInterface;
 
