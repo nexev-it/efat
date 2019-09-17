@@ -249,7 +249,7 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
      */
     public function setPEC(?string $pec): void
     {
-        if(is_null($pec)) return;
+        if(in_array($pec, [null, ''])) return;
         if(!preg_match("/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/i", $pec)) throw new \Exception("Indirizzo email non formattato in modo corretto");
 
         $this->pec = $pec;
@@ -263,7 +263,7 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
      */
     public function setCodiceSDI(?string $sdi): void
     {
-        if(is_null($sdi)) return;
+        if(in_array($sdi, [null, ''])) return;
         if(!preg_match($this->getSdiRegEx(), $sdi)) throw new \Exception("Codice SDI non formattato in modo corretto");
 
         $this->sdi = $sdi;
