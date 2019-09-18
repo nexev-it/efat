@@ -141,4 +141,9 @@ class FatturaBuilder {
     public static function creaRitenuta(float $aliquota, float $percentualeSuImponibile = 1, string $causale = 'Z', ?string $tipo = null): Ritenuta {
         return new Ritenuta($aliquota, $percentualeSuImponibile, $causale, $tipo);
     }
+
+    public static function creaEasyFatt(string $filePath): string
+    {
+        return (new EasyFattBuilder($filePath))->esportaXML();
+    }
 }
