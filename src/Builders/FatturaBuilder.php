@@ -142,8 +142,37 @@ class FatturaBuilder {
         return new Ritenuta($aliquota, $percentualeSuImponibile, $causale, $tipo);
     }
 
+    /**
+     * Crea e restituisce la stringa del contenuto del file EasyFatt della fattura
+     * passata come parametro (percorso al file xml)
+     *
+     * @param string $filePath
+     * @return string
+     */
     public static function creaEasyFatt(string $filePath): string
     {
         return (new EasyFattBuilder($filePath))->esportaXML();
+    }
+
+    /**
+     * Restituisce un response HTTP con lo zip contenente i file EasyFatt
+     * di cui è stata richiesta la creazione. Il parametro in ingresso è un array
+     * di "oggetti" del tipo:
+     * [
+     *      [
+     *          'xml' => '/percorso/al/file/fatturapa.xml',
+     *          'name' => 'nome_file_easyFatt.DefXml'
+     *      ],
+     *      [
+     *          ...
+     *      ]
+     * ];
+     *
+     * @param array $array
+     * @return void
+     */
+    public static function creaArrayEasyFatt(array $array)
+    {
+        return (new EasyFattBatchBuilder($array))->creaZip();
     }
 }

@@ -41,14 +41,8 @@ class EasyFattBuilder extends AbstractBaseClass {
 
     public function esportaFile(string $filePath): bool
     {
-        $file = '';
-        $fileName = 'easyFatt.xml';
-
-        if ($this->endsWith($filePath, '/')) $file = $filePath . $fileName;
-        else $file = $filePath . '/' . $fileName;
-
         $content = $this->esportaXML();
-        if (false === file_put_contents($file, $content, LOCK_EX)) return false;
+        if (false === file_put_contents($filePath, $content, LOCK_EX)) return false;
 
         return true;
     }

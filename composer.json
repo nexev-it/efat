@@ -23,7 +23,8 @@
     "license": "MIT",
     "require": {
         "php": ">=7.1",
-        "slam/php-validatore-fattura-elettronica": "^1.2"
+        "slam/php-validatore-fattura-elettronica": "^1.2",
+        "maennchen/zipstream-php": "^1.2"
     },
     "prefer-stable": true,
     "minimum-stability": "dev",
