@@ -7,13 +7,7 @@ use Exception;
 
 class EasyFattBatchBuilder extends AbstractBaseClass
 {
-
-    protected $elements;
-
-    protected $tempPath;
-
     protected $zipName;
-
     protected $builders;
 
     public function __construct(array $elements)
@@ -21,10 +15,6 @@ class EasyFattBatchBuilder extends AbstractBaseClass
         if(count($elements) < 1) throw new Exception("Non è stata dichiarata alcuna fattura di cui creare il file EasyFatt");
 
         $this->builders = [];
-
-        $this->tempPath = __DIR__ . '/temp_' . microtime(true) .'/';
-
-        if(!mkdir($this->tempPath)) throw new Exception("Errore nella creazione della cartella temporanea: contattare l'amministratore di sistema");
         
         for($i=0; $i<count($elements); $i++) {
             $e = $elements[$i];
@@ -42,8 +32,7 @@ class EasyFattBatchBuilder extends AbstractBaseClass
             }
         }
 
-        $this->elements = $elements;
-        $this->zipName = 'EasyFatt_export_' . (new DateTime())->format('Y-m-d_H-i') . '.zip';
+        $this->zipName = 'EasyFatt_export_' . (new \DateTime())->format('Y-m-d_H-i') . '.zip';
     }
 
     public function creaZip()
