@@ -53,7 +53,7 @@ class EasyFattBuilder extends AbstractBaseClass {
         return true;
     }
 
-    public function esportaXML()
+    public function esportaXML(): string
     {
 
         $f = $this->getArrayFattura();
@@ -107,10 +107,21 @@ class EasyFattBuilder extends AbstractBaseClass {
         $document->addChild('ContribVatCode', '');
 
 
-        // Calcolare il totale senza iva
         $totalWithoutTax = 0;
-        // Calcolare il totale dell'iva
-        $vatAmount = 0;
+        $vatAmount = 0; // Ammontare totale dell'IVA
+
+        $items = $f["FatturaElettronicaBody"]["DatiBeniServizi"]["DettaglioLinee"];
+
+        foreach($items as $i) {
+            $aliquotaIva = round($i["AliquotaIVA"], 0);
+            $prUnit = round($i["PrezzoUnitario"], 2);
+            $qt = round($i["Quantita"], 2);
+            $prTot = $prUnit * $qt;
+            $totalWithoutTax += $prTot;
+            $vatAmount += round(($prTot * ($aliquotaIva / 100)), 2);
+        }
+
+
         // Calcolare il totale con iva
         $total = $totalWithoutTax + $vatAmount;
 
@@ -181,11 +192,5 @@ class EasyFattBuilder extends AbstractBaseClass {
     protected function getArrayFattura(): array
     {
         return json_decode(json_encode((array) $this->fatturaXML), TRUE);
-    }
-
-    protected function getItemsDaArray(array $array): array
-    {
-        // TODO: ritornare l'array degli elementi necessari rappresentanti i Beni/Servizi
-        return ['prova'];
     }
 }
