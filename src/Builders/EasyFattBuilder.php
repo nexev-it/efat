@@ -58,7 +58,7 @@ class EasyFattBuilder extends AbstractBaseClass {
 
         $f = $this->getArrayFattura();
         
-        $ef = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><p:EasyfattDocuments AppVersion="2" Creator="Danea Easyfatt Enterprise  2019.45b" CreatorUrl="http://www.danea.it/software/easyfatt" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://www.danea.it/public/easyfatt-xml.xsd" />', 0, false, 'p', false);
+        $ef = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><EasyfattDocuments AppVersion="2" Creator="Danea Easyfatt Enterprise  2019.45b" CreatorUrl="http://www.danea.it/software/easyfatt" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://www.danea.it/public/easyfatt-xml.xsd" />', 0, false, null, false);
 
         $company = $ef->addChild('Company', '', '');
 
@@ -70,8 +70,8 @@ class EasyFattBuilder extends AbstractBaseClass {
         $company->addChild('Postcode', $cs["CAP"]);
         $company->addChild('City', $cs["Comune"]);
         $company->addChild('Province', $cs["Provincia"]);
-        $company->addChild('FiscalCode', $ca["IdFiscaleIva"]["IdCodice"]);
-        $company->addChild('VatCode', $ca["IdFiscaleIva"]["IdCodice"]);
+        $company->addChild('FiscalCode', $ca["IdFiscaleIVA"]["IdCodice"]);
+        $company->addChild('VatCode', $ca["IdFiscaleIVA"]["IdCodice"]);
         $company->addChild('Tel', '');
         $company->addChild('Email', '');
 
@@ -138,7 +138,7 @@ class EasyFattBuilder extends AbstractBaseClass {
         $document->addChild('TotalSubjectToWithholdingTax', 0);
         $document->addChild('WithholdingTaxPerc', 0);
         $document->addChild('WithholdingTaxPerc2', 0);
-        $document->addChild('PaymentName', $documento["Causale"]);
+        $document->addChild('PaymentName', $documento["Causale"] ?? '');
         $document->addChild('PaymentBank', '');
 
         $payments = $document->addChild('Payments');
