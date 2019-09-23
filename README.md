@@ -4,7 +4,7 @@ Questo package dispone di comodi metodi per la creazione del file XML nel format
 
 ### Esportazione per applicativi gestionali
 
-È implementata l’esportazione delle fatture elettroniche spedite per i seguenti applicativi gestionali:
+Le fatture elettroniche spedite e regolarmente ricevute dal Sistema di Interscambio tramite applicativi terzi, diversi dal proprio gestionale per la contabilità, non saranno presenti nella lista delle fatture attive. È stato perciò prevista e strutturata l’esportazione in formato compatibile con i gestionali per la contabilità più diffusi. Al momento, `efat` supporta questi applicativi:
 
 * M5UXCR1 [Danea EasyFatt](https://www.danea.it/software/easyfatt/) / [Fatture in Cloud](https://www.danea.it/software/fatture-in-cloud/)
 
