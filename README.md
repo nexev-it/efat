@@ -13,7 +13,7 @@ Per i seguenti applicativi l’esportazione non è ancora implementata:
 * SUBM70N [Zucchetti](https://www.zucchetti.it/website/cms/categoria/3576-software-fatturazione-elettronica-zucchetti..html)
 * USAL8PV [Sistemi Tre](https://www.sistemitre.it/)
 * KRRH6B9 [Aruba](https://fatturazioneelettronica.aruba.it)
-* T04ZHR3
+* T04ZHR3 [WebClient](http://webclient.it/fatturazione-on-line/)
 * 32JY534
 * G4AI1U8
 * KBTEL2G
