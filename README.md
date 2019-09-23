@@ -18,7 +18,7 @@ Per i seguenti applicativi l’esportazione non è ancora implementata:
 * G4AI1U8 [Arthur Informatica](https://www.arthurinformatica.com)
 * KBTEL2G
 * W7YV5K9
-* WHP7LTE
+* WHP7LTE [FattApp Cloud Services](https://cloud.compedservizi.it)
 * BA6ET11
 * YRXHCLN
 * J6URRTW
