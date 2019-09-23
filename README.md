@@ -12,7 +12,7 @@ Per informazioni sul formato XML richiesto dall’Agenzia delle Entrate, puoi co
 
 ### Applicazioni di cui creare l'export
 * [Zucchetti (SUBM70N)](https://www.zucchetti.it/website/cms/categoria/3576-software-fatturazione-elettronica-zucchetti..html)
-* USAL8PV
+* [Sistemi Tre (USAL8PV)](https://www.sistemitre.it/)
 * KRRH6B9
 * T04ZHR3
 * 32JY534
