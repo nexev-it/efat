@@ -11,7 +11,7 @@ Al momento è in implementazione l’export per:
 Per informazioni sul formato XML richiesto dall’Agenzia delle Entrate, puoi consultare il [documento PDF ufficiale](https://www.fatturapa.gov.it/export/fatturazione/sdi/Specifiche_tecniche_del_formato_FatturaPA_v1.2.pdf).
 
 ### Applicazioni di cui creare l'export
-* SUBM70N
+* [Zucchetti (SUBM70N)](https://www.zucchetti.it/website/cms/categoria/3576-software-fatturazione-elettronica-zucchetti..html)
 * USAL8PV
 * KRRH6B9
 * T04ZHR3
