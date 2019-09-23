@@ -4,16 +4,16 @@ Questo package dispone di comodi metodi per la creazione del file XML nel format
 
 Al momento è in implementazione l’export per:
 
-* [Danea EasyFatt / Fatture in Cloud (M5UXCR1)](https://www.danea.it/software/easyfatt/)
+* M5UXCR1 [Danea EasyFatt / Fatture in Cloud](https://www.danea.it/software/easyfatt/)
 
 ### Formato XML
 
 Per informazioni sul formato XML richiesto dall’Agenzia delle Entrate, puoi consultare il [documento PDF ufficiale](https://www.fatturapa.gov.it/export/fatturazione/sdi/Specifiche_tecniche_del_formato_FatturaPA_v1.2.pdf).
 
 ### Applicazioni di cui creare l'export
-* [Zucchetti (SUBM70N)](https://www.zucchetti.it/website/cms/categoria/3576-software-fatturazione-elettronica-zucchetti..html)
-* [Sistemi Tre (USAL8PV)](https://www.sistemitre.it/)
-* KRRH6B9
+* SUBM70N [Zucchetti](https://www.zucchetti.it/website/cms/categoria/3576-software-fatturazione-elettronica-zucchetti..html)
+* USAL8PV [Sistemi Tre](https://www.sistemitre.it/)
+* KRRH6B9 [Aruba](https://fatturazioneelettronica.aruba.it)
 * T04ZHR3
 * 32JY534
 * G4AI1U8
