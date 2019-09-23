@@ -15,7 +15,7 @@ Per i seguenti applicativi l’esportazione non è ancora implementata:
 * KRRH6B9 [Aruba](https://fatturazioneelettronica.aruba.it)
 * T04ZHR3 [WebClient](http://webclient.it/fatturazione-on-line/)
 * 32JY534
-* G4AI1U8
+* G4AI1U8 [Arthur Informatica](https://www.arthurinformatica.com)
 * KBTEL2G
 * W7YV5K9
 * WHP7LTE
