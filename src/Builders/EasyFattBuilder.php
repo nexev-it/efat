@@ -87,10 +87,12 @@ class EasyFattBuilder extends AbstractBaseClass {
 
         $documento = $f["FatturaElettronicaBody"]["DatiGenerali"]["DatiGeneraliDocumento"];
 
+        $number = $documento["Numero"];
+
         $document->addChild('DocumentType', 'I'); // Tipo di documento: I: fattura
         $document->addChild('Date', $documento["Data"]);
-        $document->addChild('Number', $documento["Numero"]);
-        $document->addChild('Numbering', '');
+        $document->addChild('Number', $this->getNumber($number));
+        $document->addChild('Numbering', $this->getNumbering($number));
         $document->addChild('CostDescription', '');
         $document->addChild('CostVatCode', '');
         $document->addChild('CostAmount', '');
@@ -186,5 +188,23 @@ class EasyFattBuilder extends AbstractBaseClass {
     protected function getArrayFattura(): array
     {
         return json_decode(json_encode((array) $this->fatturaXML), TRUE);
+    }
+
+    protected function getNumber(string $number): int
+    {
+        return $this->explodeNumber($number)[0];
+    }
+
+    protected function getNumbering(string $number): string
+    {
+        $n = $this->explodeNumber($number);
+
+        if(count($n) > 1) return '/' . $n[1];
+        else return '';
+    }
+
+    protected function explodeNumber(string $number): array
+    {
+        return explode('/', $number);
     }
 }
