@@ -79,9 +79,9 @@ class EasyFattBuilder extends AbstractBaseClass {
         $cea = $f["FatturaElettronicaHeader"]["CessionarioCommittente"]["DatiAnagrafici"];
         $ces = $f["FatturaElettronicaHeader"]["CessionarioCommittente"]["Sede"];
 
-        $document->addChild('CustomerCode', $this->daneaCode);
+        $codiceDestinatario = $f["FatturaElettronicaHeader"]["DatiTrasmissione"]["CodiceDestinatario"];
 
-        if(!$this->daneaCode) {
+        $document->addChild('CustomerCode', $this->daneaCode);
             $document->addChild('CustomerWebLogin', '');
             $document->addChild('CustomerName', $cea["Anagrafica"]["Denominazione"]);
             $document->addChild('CustomerAddress', $ces["Indirizzo"]);
@@ -89,8 +89,8 @@ class EasyFattBuilder extends AbstractBaseClass {
             $document->addChild('CustomerCity', $ces["Comune"]);
             $document->addChild('CustomerProvince', $ces["Provincia"]);
             $document->addChild('CustomerCountry', $ces["Nazione"]);
-            $document->addChild('CustomerEInvoiceDestCode', ''); // TODO: inserire il codice destinatario
-        }
+            $document->addChild('CustomerVatCode', $cea["IdFiscaleIVA"]["IdCodice"] ?? '');
+            $document->addChild('CustomerEInvoiceDestCode', $codiceDestinatario);
 
         $documento = $f["FatturaElettronicaBody"]["DatiGenerali"]["DatiGeneraliDocumento"];
 
