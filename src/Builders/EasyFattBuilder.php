@@ -10,11 +10,14 @@ class EasyFattBuilder extends AbstractBaseClass {
 
     protected $filePath;
 
+    protected $daneaCode;
+
     protected $fatturaXML;
     
-    public function __construct(string $filePath)
+    public function __construct(string $filePath, ?string $daneaCode = null)
     {
         $this->filePath = $filePath;
+        $this->daneaCode = $daneaCode;
 
         if(!file_exists($this->filePath))
         {
@@ -76,7 +79,7 @@ class EasyFattBuilder extends AbstractBaseClass {
         $cea = $f["FatturaElettronicaHeader"]["CessionarioCommittente"]["DatiAnagrafici"];
         $ces = $f["FatturaElettronicaHeader"]["CessionarioCommittente"]["Sede"];
 
-        $document->addChild('CustomerCode', '');
+        $document->addChild('CustomerCode', $this->daneaCode);
         $document->addChild('CustomerWebLogin', '');
         $document->addChild('CustomerName', $cea["Anagrafica"]["Denominazione"]);
         $document->addChild('CustomerAddress', $ces["Indirizzo"]);
