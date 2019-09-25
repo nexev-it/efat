@@ -80,13 +80,17 @@ class EasyFattBuilder extends AbstractBaseClass {
         $ces = $f["FatturaElettronicaHeader"]["CessionarioCommittente"]["Sede"];
 
         $document->addChild('CustomerCode', $this->daneaCode);
-        $document->addChild('CustomerWebLogin', '');
-        $document->addChild('CustomerName', $cea["Anagrafica"]["Denominazione"]);
-        $document->addChild('CustomerAddress', $ces["Indirizzo"]);
-        $document->addChild('CustomerPostcode', $ces["CAP"]);
-        $document->addChild('CustomerCity', $ces["Comune"]);
-        $document->addChild('CustomerProvince', $ces["Provincia"]);
-        $document->addChild('CustomerCountry', $ces["Nazione"]);
+
+        if(!$this->daneaCode) {
+            $document->addChild('CustomerWebLogin', '');
+            $document->addChild('CustomerName', $cea["Anagrafica"]["Denominazione"]);
+            $document->addChild('CustomerAddress', $ces["Indirizzo"]);
+            $document->addChild('CustomerPostcode', $ces["CAP"]);
+            $document->addChild('CustomerCity', $ces["Comune"]);
+            $document->addChild('CustomerProvince', $ces["Provincia"]);
+            $document->addChild('CustomerCountry', $ces["Nazione"]);
+            $document->addChild('CustomerEInvoiceDestCode', ''); // TODO: inserire il codice destinatario
+        }
 
         $documento = $f["FatturaElettronicaBody"]["DatiGenerali"]["DatiGeneraliDocumento"];
 
@@ -133,11 +137,11 @@ class EasyFattBuilder extends AbstractBaseClass {
         $document->addChild('WithholdingTaxNameB', '');
         $document->addChild('Total', $this->format($total));
         $document->addChild('PriceList', '');
-        $document->addChild('PriceIncludeVat', 'true');
+        $document->addChild('PriceIncludeVat', 'false');
         $document->addChild('TotalSubjectToWithholdingTax', 0);
-        $document->addChild('WithholdingTaxPerc', 0);
-        $document->addChild('WithholdingTaxPerc2', 0);
-        $document->addChild('PaymentName', $documento["Causale"] ?? '');
+        $document->addChild('WithholdingTaxPerc', 23);
+        $document->addChild('WithholdingTaxPerc2', 20);
+        $document->addChild('PaymentName', "Bonifico immediato");
         $document->addChild('PaymentBank', '');
 
         $payments = $document->addChild('Payments');
@@ -148,7 +152,7 @@ class EasyFattBuilder extends AbstractBaseClass {
         $payment->addChild('Amount', $total);
         $payment->addChild('Paid', 'false');
 
-        $document->addChild('InternalComment', '');
+        $document->addChild('InternalComment', $documento["Causale"] ?? '');
         $document->addChild('CustomField1', '');
         $document->addChild('CustomField2', '');
         $document->addChild('CustomField3', '');
@@ -172,7 +176,7 @@ class EasyFattBuilder extends AbstractBaseClass {
             $row = $rows->addChild('Row');
             $row->addChild('Code', '');
             $row->addChild('Description', $i["Descrizione"]);
-            $row->addChild('Qty', $i["Quantita"]);
+            $row->addChild('Qty', round($i["Quantita"]));
             $row->addChild('Um', 'pz');
             $row->addChild('Price', $this->format($price));
             $row->addChild('Discounts', '');
