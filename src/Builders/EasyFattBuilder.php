@@ -61,6 +61,13 @@ class EasyFattBuilder extends AbstractBaseClass {
 
         $ca = $f["FatturaElettronicaHeader"]["CedentePrestatore"]["DatiAnagrafici"];
         $cs = $f["FatturaElettronicaHeader"]["CedentePrestatore"]["Sede"];
+        $cea = $f["FatturaElettronicaHeader"]["CessionarioCommittente"]["DatiAnagrafici"];
+        $ces = $f["FatturaElettronicaHeader"]["CessionarioCommittente"]["Sede"];
+        $documento = $f["FatturaElettronicaBody"]["DatiGenerali"]["DatiGeneraliDocumento"];
+        $ritenuta = $documento["DatiRitenuta"] ?? null;
+        $number = $documento["Numero"];
+        $items = $f["FatturaElettronicaBody"]["DatiBeniServizi"]["DettaglioLinee"];
+        $codiceDestinatario = $f["FatturaElettronicaHeader"]["DatiTrasmissione"]["CodiceDestinatario"];
 
         $company->addChild('Name', $ca["Anagrafica"]["Denominazione"]);
         $company->addChild('Address', $cs["Indirizzo"]);
@@ -73,28 +80,17 @@ class EasyFattBuilder extends AbstractBaseClass {
         $company->addChild('Email', '');
 
         $documents = $ef->addChild('Documents', '', '');
-
         $document = $documents->addChild('Document', '', '');
-
-        $cea = $f["FatturaElettronicaHeader"]["CessionarioCommittente"]["DatiAnagrafici"];
-        $ces = $f["FatturaElettronicaHeader"]["CessionarioCommittente"]["Sede"];
-
-        $codiceDestinatario = $f["FatturaElettronicaHeader"]["DatiTrasmissione"]["CodiceDestinatario"];
-
         $document->addChild('CustomerCode', $this->daneaCode);
-            $document->addChild('CustomerWebLogin', '');
-            $document->addChild('CustomerName', $cea["Anagrafica"]["Denominazione"]);
-            $document->addChild('CustomerAddress', $ces["Indirizzo"]);
-            $document->addChild('CustomerPostcode', $ces["CAP"]);
-            $document->addChild('CustomerCity', $ces["Comune"]);
-            $document->addChild('CustomerProvince', $ces["Provincia"]);
-            $document->addChild('CustomerCountry', $ces["Nazione"]);
-            $document->addChild('CustomerVatCode', $cea["IdFiscaleIVA"]["IdCodice"] ?? '');
-            $document->addChild('CustomerEInvoiceDestCode', $codiceDestinatario);
-
-        $documento = $f["FatturaElettronicaBody"]["DatiGenerali"]["DatiGeneraliDocumento"];
-
-        $number = $documento["Numero"];
+        $document->addChild('CustomerWebLogin', '');
+        $document->addChild('CustomerName', $cea["Anagrafica"]["Denominazione"]);
+        $document->addChild('CustomerAddress', $ces["Indirizzo"]);
+        $document->addChild('CustomerPostcode', $ces["CAP"]);
+        $document->addChild('CustomerCity', $ces["Comune"]);
+        $document->addChild('CustomerProvince', $ces["Provincia"]);
+        $document->addChild('CustomerCountry', $ces["Nazione"]);
+        $document->addChild('CustomerVatCode', $cea["IdFiscaleIVA"]["IdCodice"] ?? '');
+        $document->addChild('CustomerEInvoiceDestCode', $codiceDestinatario);
 
         $document->addChild('DocumentType', 'I'); // Tipo di documento: I: fattura
         $document->addChild('Date', $documento["Data"]);
@@ -112,8 +108,7 @@ class EasyFattBuilder extends AbstractBaseClass {
 
         $totalWithoutTax = 0;
         $vatAmount = 0; // Ammontare totale dell'IVA
-
-        $items = $f["FatturaElettronicaBody"]["DatiBeniServizi"]["DettaglioLinee"];
+        $withHoldingTax = $ritenuta ? $ritenuta["ImportoRitenuta"] : 0;
 
         foreach($items as $i) {
             $aliquotaIva = round($i["AliquotaIVA"], 0);
@@ -124,23 +119,20 @@ class EasyFattBuilder extends AbstractBaseClass {
             $vatAmount += round(($prTot * ($aliquotaIva / 100)), 2);
         }
 
-
         // Calcolare il totale con iva
-        $total = $totalWithoutTax + $vatAmount;
-
-        // Calcolare, per ogni elemento, il costo del singolo prodotto+iva
+        $total = round($totalWithoutTax + $vatAmount - $withHoldingTax, 2);
 
         $document->addChild('TotalWithoutTax', $this->format($totalWithoutTax));
         $document->addChild('VatAmount', $this->format($vatAmount));
-        $document->addChild('WithholdingTaxAmount', 0);
+        $document->addChild('WithholdingTaxAmount', $withHoldingTax);
         $document->addChild('WithholdingTaxAmountB', 0);
         $document->addChild('WithholdingTaxNameB', '');
         $document->addChild('Total', $this->format($total));
         $document->addChild('PriceList', '');
-        $document->addChild('PriceIncludeVat', 'false');
-        $document->addChild('TotalSubjectToWithholdingTax', 0);
+        $document->addChild('PricesIncludeVat', 'false');
+        $document->addChild('TotalSubjectToWithholdingTax', $ritenuta ? $this->format($totalWithoutTax) : 0);
         $document->addChild('WithholdingTaxPerc', 23);
-        $document->addChild('WithholdingTaxPerc2', 20);
+        $document->addChild('WithholdingTaxPerc2', 50);
         $document->addChild('PaymentName', "Bonifico immediato");
         $document->addChild('PaymentBank', '');
 
@@ -162,8 +154,6 @@ class EasyFattBuilder extends AbstractBaseClass {
         $document->addChild('DelayedVat', 'false');
         
         $rows = $document->addChild('Rows');
-
-        $items = $f["FatturaElettronicaBody"]["DatiBeniServizi"]["DettaglioLinee"];
 
         foreach($items as $i) {
             $aliquotaIva = round($i["AliquotaIVA"], 0);
