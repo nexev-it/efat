@@ -149,9 +149,9 @@ class FatturaBuilder {
      * @param string $filePath
      * @return string
      */
-    public static function creaEasyFatt(string $filePath): string
+    public static function creaEasyFatt(string $filePath, string $code = null): string
     {
-        return (new EasyFattBuilder($filePath))->esportaXML();
+        return (new EasyFattBuilder($filePath, $code))->esportaXML();
     }
 
     /**
