@@ -33,6 +33,23 @@ class Servizio extends AbstractBaseClass {
      * @var float
      */
     private $aliquotaIVA;
+
+    /**
+     * Tipo di codice articolo
+     * 
+     * @var string|null
+     */
+    private $codiceTipo;
+
+
+    /**
+     * Valore del codice articolo
+     * 
+     * @var string|null
+     */
+    private $codiceValore;
+
+
     
     public function __construct(string $descrizione, float $prezzoUnitario, int $quantita = 1, float $aliquotaIVA = 0.22)
     {
@@ -40,6 +57,8 @@ class Servizio extends AbstractBaseClass {
         $this->setPrezzoUnitario($prezzoUnitario);
         $this->setQuantita($quantita);
         $this->setAliquotaIVA($aliquotaIVA);
+        $this->codiceTipo = null;
+        $this->codiceValore = null;
     }
 
     public function setDescrizione(string $descrizione): void
@@ -64,6 +83,27 @@ class Servizio extends AbstractBaseClass {
     {
         if($aliquotaIVA < 0 OR $aliquotaIVA > 1) throw new \Exception("L'aliquota IVA deve essere una percentuale, ovvero un numero compreso tra 0 e 1");
         $this->aliquotaIVA = $aliquotaIVA;
+    }
+
+    public function setCodiceArticolo(string $codiceTipo, string $codiceValore)
+    {
+        $this->codiceTipo = $codiceTipo;
+        $this->codiceValore = $codiceValore;
+    }
+
+    public function hasCodiceArticolo(): bool
+    {
+        return $this->codiceTipo != null && $this->codiceValore != null;
+    }
+
+    public function getCodiceTipo(): ?string
+    {
+        return $this->codiceTipo;
+    }
+
+    public function getCodiceValore(): ?string
+    {
+        return $this->codiceValore;
     }
 
     public function getDescrizione(): string

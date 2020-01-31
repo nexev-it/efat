@@ -138,6 +138,11 @@ class ServiziContainer extends AbstractBaseClass
 
             $itemNumber++;
             $dl = $el->addChild('DettaglioLinee');
+            if($item->hasCodiceArticolo()) {
+                $codice = $dl->addChild('CodiceArticolo');
+                $codice->addChild('CodiceTipo', $item->getCodiceTipo());
+                $codice->addChild('CodiceValore', $item->getCodiceValore());
+            }
             $dl->addChild('NumeroLinea', $itemNumber);
             $dl->addChild('Descrizione', $this->clearString($item->getDescrizione()));
             $dl->addChild('Quantita', $this->format($item->getQuantita()));
