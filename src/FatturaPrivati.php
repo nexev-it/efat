@@ -15,10 +15,7 @@ class FatturaPrivati extends AbstractFattura {
     }
 
     /**
-     * Override della funzione per NON permettere l'inserimento di cessionari di tipo PubblicaAmministrazione
-     *
-     * @param Interfaces\CessionarioInterface $cessionario
-     * @return void
+     * Override della funzione per NON permettere l'inserimento di cessionari di tipo PubblicaAmministrazione.
      */
     public function setCessionario(CessionarioInterface $cessionario): void
     {

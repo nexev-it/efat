@@ -138,8 +138,6 @@ abstract class AbstractSoggetto extends AbstractBaseClass {
     /**
      * Restituisce l'indirizzo di PEC del Soggetto,
      * se impostato
-     *
-     * @return string|null
      */
     public function getPEC(): ?string
     {

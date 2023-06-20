@@ -2,6 +2,7 @@
 
 namespace Nexev\EFat\Entities;
 
+use Nexev\EFat\Entities\REA;
 use Nexev\EFat\Entities\Abstracts\AbstractPersonaGiuridica;
 use Nexev\EFat\Entities\Interfaces\CedenteInterface;
 use Nexev\EFat\Entities\Interfaces\CessionarioInterface;
@@ -10,25 +11,23 @@ use Nexev\EFat\Entities\Interfaces\TrasmittenteInterface;
 class PersonaGiuridica extends AbstractPersonaGiuridica implements CessionarioInterface, CedenteInterface, TrasmittenteInterface {
 
     /**
-     * Dati REA
-     *
-     * @var \Nexev\EFat\Entities\REA
+     * Dati REA.
      */
-    protected $rea;
+    protected REA $rea;
 
     public function setREA(REA $rea): void
     {
         $this->rea = $rea;
     }
 
-    public function getREA(): ? REA
+    public function getREA(): ?REA
     {
         return $this->rea;
     }
 
     public function hasREA(): bool
     {
-        return !is_null($this->rea);
+        return (isset($this->rea) and $this->rea) ?? FALSE;
     }
 
     public function checkForCessionario(): bool

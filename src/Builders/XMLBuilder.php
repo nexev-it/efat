@@ -8,7 +8,7 @@ use SlamFatturaElettronica\Validator;
 
 class XMLBuilder extends AbstractBaseClass {
 
-    private $fattura;
+    private AbstractFattura $fattura;
 
     public function __construct(AbstractFattura $fattura)
     {
@@ -20,11 +20,9 @@ class XMLBuilder extends AbstractBaseClass {
     }
 
     /**
-     * Restituisce la stringa XML pronta ad essere salvata all'interno di un file XML.
-     *
-     * @return string
+     * Restituisce la stringa XML pronta ad essere salvata all’interno di un file XML.
      */
-    public function esportaXML(): string
+    public function esportaXML(?string $xslPath=NULL): string
     {
         $simpleXmlElement = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><p:FatturaElettronica xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" versione="' . $this->fattura->getFormatoTrasmissione() . '" xsi:schemaLocation="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2 http://www.fatturapa.gov.it/export/fatturazione/sdi/fatturapa/v1.2/Schema_del_file_xml_FatturaPA_versione_1.2.xsd" />', 0, false, 'p', false);
 
@@ -39,9 +37,10 @@ class XMLBuilder extends AbstractBaseClass {
 
         $datiTrasmissione->addChild('FormatoTrasmissione', $this->fattura->getFormatoTrasmissione());
 
-        $datiTrasmissione->addChild('CodiceDestinatario', $this->fattura->getCessionario()->getCodiceSDI());
+        $codiceSDI = $this->fattura->getCessionario()->getCodiceSDI();
+        $datiTrasmissione->addChild('CodiceDestinatario', $codiceSDI);
 
-        if (!$this->fattura->getCessionario()->getCodiceSDI() == '0000000') {
+        if ('0000000' == $codiceSDI) {
             $datiTrasmissione->addChild('PECDestinatario', $this->fattura->getCessionario()->getPEC());
         }
 
@@ -51,7 +50,7 @@ class XMLBuilder extends AbstractBaseClass {
         $cessionarioCommittente = $header->addChild('CessionarioCommittente');
         $this->fattura->getCessionario()->compilaCessionarioCommittente($cessionarioCommittente);
 
-        if($this->fattura->hasTrasmittente()) {
+        if ($this->fattura->hasTrasmittente()) {
             $terzoIntermediario = $header->addChild('TerzoIntermediarioOSoggettoEmittente');
             $this->fattura->getTrasmittente()->compilaTerzoIntermediario($terzoIntermediario);
             
@@ -80,9 +79,12 @@ class XMLBuilder extends AbstractBaseClass {
 
         $this->fattura->getServiziContainer()->compilaBeniServizi($datiBeniServizi, $this->fattura->getEsigibileIva());
 
-        // Creo il file
         $xmlDom = new \DOMDocument('1.0', 'utf-8');
-        $xmlDom->appendChild($xmlDom->createProcessingInstruction('xml-stylesheet', 'type="text/xsl" href="../../assets/fatturaordinaria_v1.2.1.xsl"'));
+        
+        // percorso al file XSL
+        if ($xslPath) {
+            $xmlDom->appendChild($xmlDom->createProcessingInstruction('xml-stylesheet', 'type="text/xsl" href="' . $xslPath . '"'));
+        }
 
         // aggiunge in coda al nuovo oggetto DOMDocument l'oggetto SimpleXML
         $xmlDom->appendChild($xmlDom->importNode(dom_import_simplexml($simpleXmlElement), TRUE));
