@@ -55,7 +55,7 @@ class EasyFattBuilder extends AbstractBaseClass {
 
         $f = $this->getArrayFattura();
         
-        $ef = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><EasyfattDocuments AppVersion="2" Creator="Danea Easyfatt Enterprise  2019.45b" CreatorUrl="http://www.danea.it/software/easyfatt" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://www.danea.it/public/easyfatt-xml.xsd" />', 0, false, null, false);
+        $ef = new \SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><EasyfattDocuments AppVersion="2" Creator="Danea Easyfatt Enterprise  2019.45b" CreatorUrl="http://www.danea.it/software/easyfatt" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://www.danea.it/public/easyfatt-xml.xsd" />', 0, false, '', false);
 
         $company = $ef->addChild('Company', '', '');
 

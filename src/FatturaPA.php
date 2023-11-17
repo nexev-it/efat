@@ -14,16 +14,12 @@ class FatturaPA extends AbstractFattura {
         parent::__construct($numero, $progressivoInvio, $data);
     }
 
-
     /**
      * Override della funzione per permettere l'inserimento di cessionari di solo tipo PubblicaAmministrazione
-     *
-     * @param Interfaces\CessionarioInterface $cessionario
-     * @return void
      */
     public function setCessionario(CessionarioInterface $cessionario): void
     {
-        if(!is_a($cessionario, 'Nexev\EFat\Entities\PubblicaAmministrazione')) throw new \Exception("Il cessionario di una FatturaPA deve necessariamente essere una pubblica amministrazione");
+        if (!is_a($cessionario, 'Nexev\EFat\Entities\PubblicaAmministrazione')) throw new \Exception("Il cessionario di una FatturaPA deve necessariamente essere una pubblica amministrazione");
         parent::setCessionario($cessionario);
     }
 }

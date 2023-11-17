@@ -15,22 +15,26 @@
         "importazione-danea",
         "importazione-fattureincloud"
     ],
-    "homepage": "http://www.nexev.it",
+    "homepage": "https://nexev.it",
     "support": {
-        "issues": "https://github.com/Release88/efat/issues",
-        "source": "https://github.com/Release88/efat"
+        "issues": "https://github.com/nexev-it/efat/issues",
+        "source": "https://github.com/nexev-it/efat"
     },
     "license": "MIT",
     "require": {
-        "php": ">=7.1",
-        "slam/php-validatore-fattura-elettronica": "^1.2",
-        "maennchen/zipstream-php": "^2.1"
+        "slam/php-validatore-fattura-elettronica": "^1",
+        "maennchen/zipstream-php": "^2.1 || ^3.0"
     },
     "prefer-stable": true,
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "Nexev\\EFat\\": "src/"
+        }
+    },
+    "config": {
+        "platform": {
+            "php": "7.4"
         }
     }
 }

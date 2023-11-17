@@ -115,15 +115,9 @@ abstract class AbstractFattura extends AbstractBaseClass {
 
     /**
      * Imposta il numero della fattura.
-     * Il numero è una stringa compresa tra 1 e 5
-     * caratteri
-     *
-     * @param string $numero
-     * @return void
      */
     public function setNumero(string $numero): void
     {
-        if(strlen($numero) < 1 OR strlen($numero) > 5) throw new \Exception("Il numero della fattura deve essere compreso tra 1 e 5 caratteri");
         $this->numero = $numero;
     }
 

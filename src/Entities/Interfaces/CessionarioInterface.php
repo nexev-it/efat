@@ -12,4 +12,8 @@ interface CessionarioInterface {
 
 	public function compilaCessionarioCommittente(\SimpleXMLElement $el): void;
 
+	public function getPartitaIVA(): string;
+
+	public function getStringaErrori(): string;
+
 }
