@@ -39,8 +39,8 @@ class Indirizzo extends AbstractBaseClass {
 
     public function setCAP(string $cap): void
     {
-        if(strlen($cap) != 5) throw new \Exception("CAP non valido: numero dei caratteri da utilizzare: 5");
-        if(!is_numeric($cap)) throw new \Exception("CAP non valido: la stringa non contiene soltanto numeri");
+        if (strlen($cap) != 5) throw new \Exception("CAP non valido, dev’essere esattamente di 5 cifre");
+        if (!is_numeric($cap)) throw new \Exception("CAP non valido, la stringa “" . $cap . "” non contiene soltanto numeri");
         $this->cap = $cap;
     }
 
